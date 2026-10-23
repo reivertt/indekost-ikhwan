@@ -44,5 +44,34 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-.commandcode
-.vscode
+
+# AI assistant tooling / local notes
+.commandcode/
+.claude/
+.github/modernize/
+
+# IDE settings
+.vscode/
+
+# Secrets and signing keys (never commit)
+google-services.json
+GoogleService-Info.plist
+.env
+.env.*
+*.env
+key.properties
+*.keystore
+*.jks
+*.p12
+*.pem
+service-account*.json
+*-adminsdk-*.json
+
+# Firebase CLI local state
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+
+# Local machine config
+local.properties
+.fvm/
