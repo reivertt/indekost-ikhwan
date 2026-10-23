@@ -1,8 +1,8 @@
-# indekost_ikhwan (Pondok Ikhwan)
+# indekost_ikhwan
 
 A Flutter app for managing a 19-room boarding house (*indekost*). It tracks room occupancy and rent payments, building and room maintenance, and staff with their work logs. Data lives in Cloud Firestore, and access is limited to signed-in users (Firebase email/password auth).
 
-- **App name:** Pondok Ikhwan (`AppConfig.appName`)
+- **App name:** indekost ikhwan (`AppConfig.appName`)
 - **Package:** `nabil.amoriza.indekost_ikhwan`
 - **Firebase project:** `indekost-ikhwan`
 - **Platforms configured:** Android and Web (`lib/firebase_options.dart`)
