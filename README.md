@@ -1,10 +1,8 @@
 # indekost_ikhwan
 
-A Flutter app for managing a 19-room boarding house (*indekost*). It tracks room occupancy and rent payments, building and room maintenance, and staff with their work logs. Data lives in Cloud Firestore, and access is limited to signed-in users (Firebase email/password auth).
+A Flutter app for managing a boarding house (*indekost*). It tracks room occupancy and rent payments, building and room maintenance, and staff with their work logs. Data lives in Cloud Firestore, and access is limited to signed-in users (Firebase email/password auth).
 
 - **App name:** indekost ikhwan (`AppConfig.appName`)
-- **Package:** `nabil.amoriza.indekost_ikhwan`
-- **Firebase project:** `indekost-ikhwan`
 - **Platforms configured:** Android and Web (`lib/firebase_options.dart`)
 - **SDK:** Dart `^3.7.2`, Material 3
 
@@ -14,8 +12,8 @@ The app opens on a login screen. After sign-in, a bottom navigation bar switches
 
 | Tab | What it does |
 |-----|--------------|
-| **Home** | Dashboard with summary cards: occupancy (`occupied / 19`) and how many payments are due soon, building maintenance status, and staff. Each card jumps to its tab. The app bar has a Settings button. |
-| **Room** | Map of the rooms laid out by floor (Floor 1: 1A–7A, Floor 2: 1B–6B and 1C–6C). Tap a room for its detail page (tenant, contacts, vehicle plate, check-in date, payment and maintenance history). Rooms are added and edited through a form sheet. |
+| **Home** | Dashboard with summary cards: occupancy (occupied rooms out of the total) and how many payments are due soon, building maintenance status, and staff. Each card jumps to its tab. The app bar has a Settings button. |
+| **Room** | Map of the rooms laid out by floor. Tap a room for its detail page (tenant, contacts, vehicle plate, check-in date, payment and maintenance history). Rooms are added and edited through a form sheet. |
 | **Maintenance** | Chronological feed of maintenance actions, with a floating button to add a log. Swipe a log to delete it. Logs are either room-scoped or building-scoped. |
 | **Staff** | Staff list with role and monthly pay rate. The detail page shows a per-staff work log (date, hours, tasks, pay). Staff can be added, edited and deleted, and deleting a staff member also deletes their work logs. |
 | **Settings** | Shows the signed-in account and lets you log out. It also lets you edit the reminder thresholds below, which are saved on the device with `shared_preferences`. |
@@ -64,12 +62,12 @@ The full schema is in `.commandcode/database.md`. In short:
 
 | Collection | Documents |
 |------------|-----------|
-| `rooms` | 19 documents, with the room number as the ID (`1A`, `2B`, …). Fields: `type` (`Standard` or `Large`), `pricePer6Months`, tenant details, `checkInDate`, a `maintenance` map of last-done dates, and a `payment` map (`lastPaidDate`, `amountPaid`, `nextDueDate`). |
+| `rooms` | One document per room, with the room number as the document ID. Fields: `type`, `pricePer6Months`, tenant details, `checkInDate`, a `maintenance` map of last-done dates, and a `payment` map (`lastPaidDate`, `amountPaid`, `nextDueDate`). |
 | `building_maintenance` | A single `global_stats` document: `waterLastCleaned`, `septicLastCleaned`, and an `electricity` map (token date, amount, meter reading). |
 | `staff` | Auto-ID documents (`name`, `role`, `payRatePerMonth`, `phoneNumber`, `isActive`) with a `work_logs` sub-collection. |
 | `maintenance_logs` | Auto-ID documents (`scope`, `category`, `date`, optional `roomId`, `notes`, `amount`). |
 
-Standard rooms are priced at 10,500,000 and Large rooms at 11,500,000 per 6 months. The room documents were created once in Firestore, so the app reads them from there and has no setup step for them.
+The room documents were created once in Firestore, so the app reads them from there and has no setup step for them.
 
 ## Getting started
 
@@ -85,12 +83,12 @@ Standard rooms are priced at 10,500,000 and Large rooms at 11,500,000 per 6 mont
    ```bash
    flutter pub get
    ```
-2. Configure Firebase. The repo ships `lib/firebase_options.dart` and `firebase.json` for the `indekost-ikhwan` project. For your own project, run:
+2. Configure Firebase. The repo ships `lib/firebase_options.dart` and `firebase.json` for the original Firebase project. For your own project, run:
    ```bash
    dart pub global activate flutterfire_cli
    flutterfire configure
    ```
-3. Android only: `android/app/google-services.json` is git-ignored. Download it from the Firebase console, or let `flutterfire configure` generate it. The package name must be `nabil.amoriza.indekost_ikhwan`. A step-by-step walkthrough is in `.commandcode/firebase-setup-guide.md`.
+3. Android only: `android/app/google-services.json` is git-ignored. Download it from the Firebase console, or let `flutterfire configure` generate it. The package name must match the `applicationId` in `android/app/build.gradle.kts`. A step-by-step walkthrough is in `.commandcode/firebase-setup-guide.md`.
 4. In the Firebase console, create a user under **Authentication → Users** and write Firestore security rules so only signed-in users can read and write.
 5. Run the app:
    ```bash
