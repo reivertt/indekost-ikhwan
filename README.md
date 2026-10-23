@@ -1,4 +1,4 @@
-# indekost_ikhwan
+# indekost-ikhwan
 
 A Flutter app for managing a boarding house (*indekost*). It tracks room occupancy and rent payments, building and room maintenance, and staff with their work logs. Data lives in Cloud Firestore, and access is limited to signed-in users (Firebase email/password auth).
 
